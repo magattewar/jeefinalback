@@ -1,6 +1,6 @@
 package com.magattewar.projetniassback.config;
 
-import com.magattewar.ServeurGestionStockProduits.services.UserDetailsServiceImpl;
+import com.magattewar.projetniassback.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

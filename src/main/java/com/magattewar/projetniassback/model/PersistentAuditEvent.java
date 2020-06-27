@@ -1,17 +1,13 @@
 package com.magattewar.projetniassback.model;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Persist AuditEvent managed by the Spring Boot actuator.
- *
- * @see org.springframework.boot.actuate.audit.AuditEvent
- */
 @Entity
 @Table(name = "jhi_persistent_audit_event")
 public class PersistentAuditEvent implements Serializable {

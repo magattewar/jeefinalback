@@ -1,10 +1,14 @@
 package com.magattewar.projetniassback.services;
-
-import com.magattewar.ServeurGestionStockProduits.dao.RoleRepository;
-import com.magattewar.ServeurGestionStockProduits.dao.UserRepository;
-import com.magattewar.ServeurGestionStockProduits.model.Role;
-import com.magattewar.ServeurGestionStockProduits.model.RoleName;
-import com.magattewar.ServeurGestionStockProduits.model.User;
+//
+//import com.magattewar.ServeurGestionStockProduits.dao.RoleRepository;
+//import com.magattewar.ServeurGestionStockProduits.dao.UserRepository;
+//import com.magattewar.ServeurGestionStockProduits.model.Role;
+//import com.magattewar.ServeurGestionStockProduits.model.RoleName;
+//import com.magattewar.ServeurGestionStockProduits.model.User;
+import com.magattewar.projetniassback.dao.RoleRepository;
+import com.magattewar.projetniassback.dao.UserRepository;
+import com.magattewar.projetniassback.model.Role;
+import com.magattewar.projetniassback.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

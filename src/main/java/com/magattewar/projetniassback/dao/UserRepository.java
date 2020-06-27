@@ -1,6 +1,6 @@
 package com.magattewar.projetniassback.dao;
 
-import com.magattewar.ServeurGestionStockProduits.model.User;
+import com.magattewar.projetniassback.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,10 +1,11 @@
 package com.magattewar.projetniassback.controller;
 
-import com.magattewar.ServeurGestionStockProduits.config.JwtTokenUtil;
-import com.magattewar.ServeurGestionStockProduits.model.ErrorResponse;
-import com.magattewar.ServeurGestionStockProduits.model.JwtRequest;
-import com.magattewar.ServeurGestionStockProduits.model.ResponseJwt;
-import com.magattewar.ServeurGestionStockProduits.services.UserDetailsServiceImpl;
+
+import com.magattewar.projetniassback.config.JwtTokenUtil;
+import com.magattewar.projetniassback.model.ErrorResponse;
+import com.magattewar.projetniassback.model.JwtRequest;
+import com.magattewar.projetniassback.model.ResponseJwt;
+import com.magattewar.projetniassback.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
