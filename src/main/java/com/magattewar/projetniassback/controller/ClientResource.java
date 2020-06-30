@@ -3,28 +3,26 @@ package com.magattewar.projetniassback.controller;
 
 import com.magattewar.projetniassback.model.Client;
 import com.magattewar.projetniassback.repository.ClientRepository;
-import org.apache.tomcat.util.http.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+
+@CrossOrigin(origins = {"http://localhost:4200", "https://localhost:4200"})
+@RequestMapping("/api/client")
 @Transactional
 public class ClientResource {
 
     private final Logger log = LoggerFactory.getLogger(ClientResource.class);
 
-    private static final String ENTITY_NAME = "testjhipsterClient";
 
 
     @Autowired
@@ -34,13 +32,7 @@ public class ClientResource {
         this.clientRepository = clientRepository;
     }
 
-    /**
-     * {@code POST  /clients} : Create a new client.
-     *
-     * @param client the client to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new client, or with status {@code 400 (Bad Request)} if the client has already an ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
+
     @PostMapping("/clients")
     public List<Client> createClient(@RequestBody Client client) throws URISyntaxException {
         log.debug("REST request to save Client : {}", client);
@@ -48,61 +40,32 @@ public class ClientResource {
         return clientRepository.findAll();
     }
 
-//    /**
-//     * {@code PUT  /clients} : Updates an existing client.
-//     *
-//     * @param client the client to update.
-//     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated client,
-//     * or with status {@code 400 (Bad Request)} if the client is not valid,
-//     * or with status {@code 500 (Internal Server Error)} if the client couldn't be updated.
-//     * @throws URISyntaxException if the Location URI syntax is incorrect.
-//     */
-//    @PutMapping("/clients")
-//    public ResponseEntity<Client> updateClient(@RequestBody Client client) throws URISyntaxException {
-//        log.debug("REST request to update Client : {}", client);
-//        if (client.getId() == null) {
-//            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-//        }
-//        Client result = clientRepository.save(client);
-//        return ResponseEntity.ok()
-//                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, client.getId().toString()))
-//                .body(result);
-//    }
-//
-//    /**
-//     * {@code GET  /clients} : get all the clients.
-//     *
-//     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of clients in body.
-//     */
-//    @GetMapping("/clients")
-//    public List<Client> getAllClients() {
-//        log.debug("REST request to get all Clients");
-//        return clientRepository.findAll();
-//    }
-//
-//    /**
-//     * {@code GET  /clients/:id} : get the "id" client.
-//     *
-//     * @param id the id of the client to retrieve.
-//     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the client, or with status {@code 404 (Not Found)}.
-//     */
-//    @GetMapping("/clients/{id}")
-//    public ResponseEntity<Client> getClient(@PathVariable Long id) {
-//        log.debug("REST request to get Client : {}", id);
-//        Optional<Client> client = clientRepository.findById(id);
-//        return ResponseUtil.wrapOrNotFound(client);
-//    }
-//
-//    /**
-//     * {@code DELETE  /clients/:id} : delete the "id" client.
-//     *
-//     * @param id the id of the client to delete.
-//     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
-//     */
-//    @DeleteMapping("/clients/{id}")
-//    public ResponseEntity<Void> deleteClient(@PathVariable Long id) {
-//        log.debug("REST request to delete Client : {}", id);
-//        clientRepository.deleteById(id);
-//        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
-//    }
+    @GetMapping("/clients/all")
+    public List<Client> getAll(){
+        return clientRepository.findAll();
+    }
+
+
+    @PutMapping("/clients")
+    public List<Client> updateClient(@RequestBody Client client) throws URISyntaxException {
+        log.debug("REST request to update Client : {}", client);
+        if (client.getId() == null) {
+
+            return clientRepository.findAll();
+        }
+        Client result = clientRepository.save(client);
+        return clientRepository.findAll();
+    }
+
+    @GetMapping("/clients/{id}")
+    public Optional<Client> getClient(@PathVariable Long id) {
+        Optional<Client> client = clientRepository.findById(id);
+        return client;
+    }
+
+    @DeleteMapping("/clients/{id}")
+    public List<Client> deleteClient(@PathVariable Long id) {
+        clientRepository.deleteById(id);
+        return clientRepository.findAll();
+    }
 }
