@@ -17,7 +17,7 @@ import java.util.Optional;
 @RestController
 
 @CrossOrigin(origins = {"http://localhost:4200", "https://localhost:4200"})
-@RequestMapping("/api/client")
+@RequestMapping("/api")
 @Transactional
 public class ClientResource {
 
@@ -33,7 +33,7 @@ public class ClientResource {
     }
 
 
-    @PostMapping("/clients")
+    @PostMapping("/clients/add")
     public List<Client> createClient(@RequestBody Client client) throws URISyntaxException {
         log.debug("REST request to save Client : {}", client);
         clientRepository.save(client);

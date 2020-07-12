@@ -5,6 +5,7 @@ import com.magattewar.projetniassback.model.LigneCommande;
 import com.magattewar.projetniassback.repository.LigneCommandeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +17,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/lignecommande")
+@CrossOrigin(origins = {"http://localhost:4200", "https://localhost:4200"})
+@RequestMapping("/api")
 @Transactional
 public class LigneCommandeResource {
 
@@ -25,13 +27,14 @@ public class LigneCommandeResource {
     private static final String ENTITY_NAME = "testjhipsterLigneCommande";
 
 
+    @Autowired
     private final LigneCommandeRepository ligneCommandeRepository;
 
     public LigneCommandeResource(LigneCommandeRepository ligneCommandeRepository) {
         this.ligneCommandeRepository = ligneCommandeRepository;
     }
 //
-@PostMapping("/lignecommandes")
+@PostMapping("/lignecommandes/add")
 public List<LigneCommande> createLigneCommande(@RequestBody LigneCommande lignecommande) throws URISyntaxException {
     log.debug("REST request to save LigneCommande : {}", lignecommande);
     ligneCommandeRepository.save(lignecommande);

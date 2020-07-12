@@ -4,6 +4,7 @@ import com.magattewar.projetniassback.model.EtatCommande;
 import com.magattewar.projetniassback.repository.EtatCommandeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +17,9 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/api/etatcommande")
+
+@CrossOrigin(origins = {"http://localhost:4200", "https://localhost:4200"})
+@RequestMapping("/api")
 @Transactional
 public class EtatCommandeResource {
 
@@ -25,13 +28,14 @@ public class EtatCommandeResource {
     private static final String ENTITY_NAME = "testjhipsterEtatCommande";
 
 
+    @Autowired
     private final EtatCommandeRepository etatCommandeRepository;
 
     public EtatCommandeResource(EtatCommandeRepository etatCommandeRepository) {
         this.etatCommandeRepository = etatCommandeRepository;
     }
 //
-@PostMapping("/etatcommandes")
+@PostMapping("/etatcommandes/add")
 public List<EtatCommande> createEtatCommande(@RequestBody EtatCommande etatcommande) throws URISyntaxException {
     log.debug("REST request to save EtatCommande : {}", etatcommande);
     etatCommandeRepository.save(etatcommande);

@@ -5,6 +5,7 @@ import com.magattewar.projetniassback.model.Paiement;
 import com.magattewar.projetniassback.repository.PaiementRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +17,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/paiement")
+@CrossOrigin(origins = {"http://localhost:4200", "https://localhost:4200"})
+@RequestMapping("/api")
 @Transactional
 public class PaiementResource {
 
@@ -25,21 +27,23 @@ public class PaiementResource {
     private static final String ENTITY_NAME = "testjhipsterPaiement";
 
 
+    @Autowired
     private final PaiementRepository paiementRepository;
 
     public PaiementResource(PaiementRepository paiementRepository) {
         this.paiementRepository = paiementRepository;
     }
-//
-@PostMapping("/paiements")
-public List<Paiement> createPaiement(@RequestBody Paiement paiement) throws URISyntaxException {
-    log.debug("REST request to save Paiement : {}", paiement);
-    paiementRepository.save(paiement);
-    return paiementRepository.findAll();
-}
+
+    //
+    @PostMapping("/paiements/add")
+    public List<Paiement> createPaiement(@RequestBody Paiement paiement) throws URISyntaxException {
+        log.debug("REST request to save Paiement : {}", paiement);
+        paiementRepository.save(paiement);
+        return paiementRepository.findAll();
+    }
 
     @GetMapping("/paiements/all")
-    public List<Paiement> getAll(){
+    public List<Paiement> getAll() {
         return paiementRepository.findAll();
     }
 

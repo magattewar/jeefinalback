@@ -1,9 +1,12 @@
 package com.magattewar.projetniassback.controller;
 
 import com.magattewar.projetniassback.model.Commande;
+import com.magattewar.projetniassback.model.LigneCommande;
 import com.magattewar.projetniassback.repository.CommandeRepository;
+import com.magattewar.projetniassback.repository.LigneCommandeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,29 +19,41 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/api/commande")
+
+@CrossOrigin(origins = {"http://localhost:4200", "https://localhost:4200"})
+@RequestMapping("/api")
 @Transactional
 public class CommandeResource {
 
     private final Logger log = LoggerFactory.getLogger(CommandeResource.class);
 
-    private static final String ENTITY_NAME = "testjhipsterCommande";
-
-
+    @Autowired
+    private final LigneCommandeRepository ligneCommandeRepository;
+    @Autowired
     private final CommandeRepository commandeRepository;
 
-    public CommandeResource(CommandeRepository commandeRepository) {
+    public CommandeResource(CommandeRepository commandeRepository, LigneCommandeRepository ligneCommandeRepository) {
         this.commandeRepository = commandeRepository;
+        this.ligneCommandeRepository = ligneCommandeRepository;
     }
-    @PostMapping("/commandes")
+
+
+    @PostMapping("/commandes/add")
     public List<Commande> createCommande(@RequestBody Commande commande) throws URISyntaxException {
         log.debug("REST request to save Commande : {}", commande);
-        commandeRepository.save(commande);
+//        System.out.println("nouvelle Commande");
+//        System.out.println(commande.getClient().getTelephone());
+        Commande commande1 = commandeRepository.save(commande);
+//        System.out.println("id de la commande" + commande1.getId());
+        for (LigneCommande ligneCommande : commande.getLignescommandes()) {
+            ligneCommande.setCommande(commande1);
+            ligneCommandeRepository.save(ligneCommande);
+        }
         return commandeRepository.findAll();
     }
 
     @GetMapping("/commandes/all")
-    public List<Commande> getAll(){
+    public List<Commande> getAll() {
         return commandeRepository.findAll();
     }
 

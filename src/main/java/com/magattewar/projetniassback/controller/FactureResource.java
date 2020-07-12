@@ -5,6 +5,7 @@ import com.magattewar.projetniassback.model.Facture;
 import com.magattewar.projetniassback.repository.FactureRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,8 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @RestController
-@RequestMapping("/api/facture")
+@CrossOrigin(origins = {"http://localhost:4200", "https://localhost:4200"})
+@RequestMapping("/api")
 @Transactional
 public class FactureResource {
 
@@ -27,13 +29,14 @@ public class FactureResource {
     private static final String ENTITY_NAME = "testjhipsterFacture";
 
 
+    @Autowired
     private final FactureRepository factureRepository;
 
     public FactureResource(FactureRepository factureRepository) {
         this.factureRepository = factureRepository;
     }
 //
-@PostMapping("/factures")
+@PostMapping("/factures/add")
 public List<Facture> createFacture(@RequestBody Facture facture) throws URISyntaxException {
     log.debug("REST request to save Facture : {}", facture);
     factureRepository.save(facture);

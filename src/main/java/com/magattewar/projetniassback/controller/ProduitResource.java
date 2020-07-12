@@ -4,6 +4,7 @@ import com.magattewar.projetniassback.model.Produit;
 import com.magattewar.projetniassback.repository.ProduitRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,30 +16,31 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/produitressource")
+@CrossOrigin(origins = {"http://localhost:4200", "https://localhost:4200"})
+@RequestMapping("/api")
 @Transactional
 public class ProduitResource {
 
     private final Logger log = LoggerFactory.getLogger(ProduitResource.class);
 
-    private static final String ENTITY_NAME = "testjhipsterProduit";
 
-
+    @Autowired
     private final ProduitRepository produitRepository;
 
     public ProduitResource(ProduitRepository produitRepository) {
         this.produitRepository = produitRepository;
     }
-//
-@PostMapping("/produits")
-public List<Produit> createProduit(@RequestBody Produit produit) throws URISyntaxException {
-    log.debug("REST request to save Produit : {}", produit);
-    produitRepository.save(produit);
-    return produitRepository.findAll();
-}
+
+    //
+    @PostMapping("/produits/add")
+    public List<Produit> createProduit(@RequestBody Produit produit) throws URISyntaxException {
+        log.debug("REST request to save Produit : {}", produit);
+        produitRepository.save(produit);
+        return produitRepository.findAll();
+    }
 
     @GetMapping("/produits/all")
-    public List<Produit> getAll(){
+    public List<Produit> getAll() {
         return produitRepository.findAll();
     }
 
