@@ -42,6 +42,14 @@ public class EtatCommande implements Serializable {
         return this;
     }
 
+    public EtatCommande(Long id, String libelle) {
+        this.id = id;
+        this.libelle = libelle;
+    }
+
+    public EtatCommande() {
+    }
+
     public void setLibelle(String libelle) {
         this.libelle = libelle;
     }

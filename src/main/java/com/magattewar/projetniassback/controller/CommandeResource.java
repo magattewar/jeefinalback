@@ -3,6 +3,7 @@ package com.magattewar.projetniassback.controller;
 import com.magattewar.projetniassback.model.Commande;
 import com.magattewar.projetniassback.model.LigneCommande;
 import com.magattewar.projetniassback.repository.CommandeRepository;
+import com.magattewar.projetniassback.repository.EtatCommandeRepository;
 import com.magattewar.projetniassback.repository.LigneCommandeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,9 +33,14 @@ public class CommandeResource {
     @Autowired
     private final CommandeRepository commandeRepository;
 
-    public CommandeResource(CommandeRepository commandeRepository, LigneCommandeRepository ligneCommandeRepository) {
+    @Autowired
+    private final EtatCommandeRepository etatCommandeRepository;
+
+    public CommandeResource(CommandeRepository commandeRepository, LigneCommandeRepository ligneCommandeRepository,
+                            EtatCommandeRepository etatCommandeRepository) {
         this.commandeRepository = commandeRepository;
         this.ligneCommandeRepository = ligneCommandeRepository;
+        this.etatCommandeRepository = etatCommandeRepository;
     }
 
 
@@ -54,6 +60,26 @@ public class CommandeResource {
 
     @GetMapping("/commandes/all")
     public List<Commande> getAll() {
+        return commandeRepository.findAll();
+    }
+
+    @GetMapping("/commandes/valider/{id}")
+    public List<Commande> valider(@PathVariable Long id) {
+        Commande commande = commandeRepository.getOne(id);
+        commande.setEtat(etatCommandeRepository.findByLibelle("attente livraison"));
+
+        commandeRepository.save(commande);
+
+        return commandeRepository.findAll();
+    }
+
+    @GetMapping("/commandes/livrer/{id}")
+    public List<Commande> livrer(@PathVariable Long id) {
+        Commande commande = commandeRepository.getOne(id);
+        commande.setEtat(etatCommandeRepository.findByLibelle("livre"));
+
+        commandeRepository.save(commande);
+
         return commandeRepository.findAll();
     }
 
