@@ -28,6 +28,17 @@ public class LigneCommande implements Serializable {
     @Column(name = "quantite")
     private Integer quantite;
 
+    @Column(name = "designation")
+    private String designation;
+
+    @Column(name = "prixUnitaire")
+    private float prixUnitaire;
+
+    @Column(name = "prixTotal")
+    private float prixTotal;
+
+    
+
     @OneToOne
     @JoinColumn(unique = true)
     private Produit produit;
@@ -35,6 +46,8 @@ public class LigneCommande implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties(value = "lignescommandes", allowSetters = true)
     private Commande commande;
+
+    
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -122,5 +135,29 @@ public class LigneCommande implements Serializable {
             ", date='" + getDate() + "'" +
             ", quantite=" + getQuantite() +
             "}";
+    }
+
+    public String getDesignation() {
+        return designation;
+    }
+
+    public void setDesignation(String designation) {
+        this.designation = designation;
+    }
+
+    public float getPrixUnitaire() {
+        return prixUnitaire;
+    }
+
+    public void setPrixUnitaire(float prixUnitaire) {
+        this.prixUnitaire = prixUnitaire;
+    }
+
+    public float getPrixTotal() {
+        return prixTotal;
+    }
+
+    public void setPrixTotal(float prixTotal) {
+        this.prixTotal = prixTotal;
     }
 }

@@ -1,9 +1,11 @@
 package com.magattewar.projetniassback.controller;
 
 import com.magattewar.projetniassback.model.Commande;
+import com.magattewar.projetniassback.model.Facture;
 import com.magattewar.projetniassback.model.LigneCommande;
 import com.magattewar.projetniassback.repository.CommandeRepository;
 import com.magattewar.projetniassback.repository.EtatCommandeRepository;
+import com.magattewar.projetniassback.repository.FactureRepository;
 import com.magattewar.projetniassback.repository.LigneCommandeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,27 +36,36 @@ public class CommandeResource {
     private final CommandeRepository commandeRepository;
 
     @Autowired
+    private final FactureRepository factureRepository;
+    
+    @Autowired
     private final EtatCommandeRepository etatCommandeRepository;
 
     public CommandeResource(CommandeRepository commandeRepository, LigneCommandeRepository ligneCommandeRepository,
-                            EtatCommandeRepository etatCommandeRepository) {
+                            EtatCommandeRepository etatCommandeRepository, FactureRepository factureRepository) {
         this.commandeRepository = commandeRepository;
         this.ligneCommandeRepository = ligneCommandeRepository;
         this.etatCommandeRepository = etatCommandeRepository;
+        this.factureRepository = factureRepository;
     }
 
 
     @PostMapping("/commandes/add")
     public List<Commande> createCommande(@RequestBody Commande commande) throws URISyntaxException {
         log.debug("REST request to save Commande : {}", commande);
-//        System.out.println("nouvelle Commande");
-//        System.out.println(commande.getClient().getTelephone());
         Commande commande1 = commandeRepository.save(commande);
-//        System.out.println("id de la commande" + commande1.getId());
         for (LigneCommande ligneCommande : commande.getLignescommandes()) {
             ligneCommande.setCommande(commande1);
             ligneCommandeRepository.save(ligneCommande);
         }
+        return commandeRepository.findAll();
+    }
+
+    @PostMapping("/commandes/annuler")
+    public List<Commande> annulerCommande(@RequestBody Commande commande) throws URISyntaxException {
+        Commande commande1 = commandeRepository.getOne(commande.getId());
+        commande1.setAnnule(true);
+        commandeRepository.save(commande1)
         return commandeRepository.findAll();
     }
 
@@ -92,6 +103,10 @@ public class CommandeResource {
             return commandeRepository.findAll();
         }
         Commande result = commandeRepository.save(commande);
+        for (LigneCommande ligneCommande : commande.getLignescommandes()) {
+            ligneCommande.setCommande(result);
+            ligneCommandeRepository.save(ligneCommande);
+        }
         return commandeRepository.findAll();
     }
 

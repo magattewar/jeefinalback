@@ -37,10 +37,9 @@ public class FactureResource {
     }
 //
 @PostMapping("/factures/add")
-public List<Facture> createFacture(@RequestBody Facture facture) throws URISyntaxException {
+public Facture createFacture(@RequestBody Facture facture) throws URISyntaxException {
     log.debug("REST request to save Facture : {}", facture);
-    factureRepository.save(facture);
-    return factureRepository.findAll();
+    return factureRepository.save(facture);
 }
 
     @GetMapping("/factures/all")

@@ -27,6 +27,9 @@ public class Commande implements Serializable {
     @Column(name = "date")
     private String date;
 
+    @Column(name = "annule")
+    private boolean annule;
+
     @OneToOne
     @JoinColumn(unique = true)
     private Facture facture;
@@ -47,6 +50,8 @@ public class Commande implements Serializable {
     public Long getId() {
         return id;
     }
+
+    
 
     public void setId(Long id) {
         this.id = id;
@@ -153,5 +158,13 @@ public class Commande implements Serializable {
             "id=" + getId() +
             ", date='" + getDate() + "'" +
             "}";
+    }
+
+    public boolean isAnnule() {
+        return annule;
+    }
+
+    public void setAnnule(boolean annule) {
+        this.annule = annule;
     }
 }
