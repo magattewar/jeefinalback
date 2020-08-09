@@ -34,8 +34,9 @@ public class Commande implements Serializable {
     @JoinColumn(unique = true)
     private Facture facture;
 
-    @OneToOne
-    @JoinColumn(unique = true)
+    @JsonIgnoreProperties("commandes")
+    @ManyToOne
+    @JoinColumn(name="etat_id")
     private EtatCommande etat;
 
     @OneToMany(mappedBy = "commande")
@@ -46,12 +47,9 @@ public class Commande implements Serializable {
     @JsonIgnoreProperties(value = "commandes", allowSetters = true)
     private Client client;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
     }
-
-    
 
     public void setId(Long id) {
         this.id = id;
@@ -61,22 +59,20 @@ public class Commande implements Serializable {
         return date;
     }
 
-    public Commande date(String date) {
-        this.date = date;
-        return this;
-    }
-
     public void setDate(String date) {
         this.date = date;
     }
 
-    public Facture getFacture() {
-        return facture;
+    public boolean isAnnule() {
+        return annule;
     }
 
-    public Commande facture(Facture facture) {
-        this.facture = facture;
-        return this;
+    public void setAnnule(boolean annule) {
+        this.annule = annule;
+    }
+
+    public Facture getFacture() {
+        return facture;
     }
 
     public void setFacture(Facture facture) {
@@ -87,84 +83,44 @@ public class Commande implements Serializable {
         return etat;
     }
 
-    public Commande etat(EtatCommande etatCommande) {
-        this.etat = etatCommande;
-        return this;
-    }
-
-    public void setEtat(EtatCommande etatCommande) {
-        this.etat = etatCommande;
+    public void setEtat(EtatCommande etat) {
+        this.etat = etat;
     }
 
     public Set<LigneCommande> getLignescommandes() {
         return lignescommandes;
     }
 
-    public Commande lignescommandes(Set<LigneCommande> ligneCommandes) {
-        this.lignescommandes = ligneCommandes;
-        return this;
-    }
-
-    public Commande addLignescommandes(LigneCommande ligneCommande) {
-        this.lignescommandes.add(ligneCommande);
-        ligneCommande.setCommande(this);
-        return this;
-    }
-
-    public Commande removeLignescommandes(LigneCommande ligneCommande) {
-        this.lignescommandes.remove(ligneCommande);
-        ligneCommande.setCommande(null);
-        return this;
-    }
-
-    public void setLignescommandes(Set<LigneCommande> ligneCommandes) {
-        this.lignescommandes = ligneCommandes;
+    public void setLignescommandes(Set<LigneCommande> lignescommandes) {
+        this.lignescommandes = lignescommandes;
     }
 
     public Client getClient() {
         return client;
     }
 
-    public Commande client(Client client) {
-        this.client = client;
-        return this;
-    }
-
     public void setClient(Client client) {
         this.client = client;
     }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Commande)) {
-            return false;
-        }
-        return id != null && id.equals(((Commande) o).id);
-    }
-
-    @Override
-    public int hashCode() {
-        return 31;
-    }
-
-    // prettier-ignore
-    @Override
-    public String toString() {
-        return "Commande{" +
-            "id=" + getId() +
-            ", date='" + getDate() + "'" +
-            "}";
-    }
-
-    public boolean isAnnule() {
-        return annule;
-    }
-
-    public void setAnnule(boolean annule) {
+    public Commande(Long id, String date, boolean annule, Facture facture, EtatCommande etat,
+            Set<LigneCommande> lignescommandes, Client client) {
+        this.id = id;
+        this.date = date;
         this.annule = annule;
+        this.facture = facture;
+        this.etat = etat;
+        this.lignescommandes = lignescommandes;
+        this.client = client;
     }
+
+    public Commande() {
+    }
+
+    // jhipster-needle-entity-add-field - JHipster will add fields here
+    
+
+    
+
+    
 }

@@ -65,7 +65,7 @@ public class CommandeResource {
     public List<Commande> annulerCommande(@RequestBody Commande commande) throws URISyntaxException {
         Commande commande1 = commandeRepository.getOne(commande.getId());
         commande1.setAnnule(true);
-        commandeRepository.save(commande1)
+        commandeRepository.save(commande1);
         return commandeRepository.findAll();
     }
 
@@ -95,7 +95,7 @@ public class CommandeResource {
     }
 
 
-    @PutMapping("/commandes")
+    @PostMapping("/commandes/edit")
     public List<Commande> updateCommande(@RequestBody Commande commande) throws URISyntaxException {
         log.debug("REST request to update Commande : {}", commande);
         if (commande.getId() == null) {

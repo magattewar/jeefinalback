@@ -1,7 +1,9 @@
 package com.magattewar.projetniassback.controller;
 
 
+import com.magattewar.projetniassback.model.Facture;
 import com.magattewar.projetniassback.model.Paiement;
+import com.magattewar.projetniassback.repository.FactureRepository;
 import com.magattewar.projetniassback.repository.PaiementRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,16 +32,22 @@ public class PaiementResource {
     @Autowired
     private final PaiementRepository paiementRepository;
 
-    public PaiementResource(PaiementRepository paiementRepository) {
+    @Autowired
+    private final FactureRepository factureRepository;
+
+    public PaiementResource(PaiementRepository paiementRepository,
+     FactureRepository factureRepository) {
         this.paiementRepository = paiementRepository;
+        this.factureRepository = factureRepository;
     }
 
     //
     @PostMapping("/paiements/add")
-    public List<Paiement> createPaiement(@RequestBody Paiement paiement) throws URISyntaxException {
+    public List<Facture> createPaiement(@RequestBody Paiement paiement) throws URISyntaxException {
         log.debug("REST request to save Paiement : {}", paiement);
         paiementRepository.save(paiement);
-        return paiementRepository.findAll();
+        // return paiementRepository.findAll();
+        return factureRepository.findAll();
     }
 
     @GetMapping("/paiements/all")

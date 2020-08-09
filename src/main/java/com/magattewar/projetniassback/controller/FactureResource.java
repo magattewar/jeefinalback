@@ -1,6 +1,5 @@
 package com.magattewar.projetniassback.controller;
 
-
 import com.magattewar.projetniassback.model.Facture;
 import com.magattewar.projetniassback.repository.FactureRepository;
 import org.slf4j.Logger;
@@ -19,7 +18,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200", "https://localhost:4200"})
+@CrossOrigin(origins = { "http://localhost:4200", "https://localhost:4200" })
 @RequestMapping("/api")
 @Transactional
 public class FactureResource {
@@ -28,25 +27,24 @@ public class FactureResource {
 
     private static final String ENTITY_NAME = "testjhipsterFacture";
 
-
     @Autowired
     private final FactureRepository factureRepository;
 
     public FactureResource(FactureRepository factureRepository) {
         this.factureRepository = factureRepository;
     }
-//
-@PostMapping("/factures/add")
-public Facture createFacture(@RequestBody Facture facture) throws URISyntaxException {
-    log.debug("REST request to save Facture : {}", facture);
-    return factureRepository.save(facture);
-}
 
-    @GetMapping("/factures/all")
-    public List<Facture> getAll(){
-        return factureRepository.findAll();
+    //
+    @PostMapping("/factures/add")
+    public Facture createFacture(@RequestBody Facture facture) throws URISyntaxException {
+        log.debug("REST request to save Facture : {}", facture);
+        return factureRepository.save(facture);
     }
 
+    @GetMapping("/factures/all")
+    public List<Facture> getAll() {
+        return factureRepository.findAll();
+    }
 
     @PutMapping("/factures")
     public List<Facture> updateFacture(@RequestBody Facture facture) throws URISyntaxException {
